@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Решение задач</title>
+</head>
+<style>
+    body{background-color: #fafafa;}
+    *{font-size: 18px;}
+    #wrapper{
+    margin: 0 auto;
+    width: 50%;
+    }
+    form{
+    margin-top: 45px;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    }
+    label{
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    }
+    input[type=submit]{
+    background-color:#5f8ffb;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    }
+</style>
+<body>
+<div id="wrapper">
+    <form action="/" method="post">
+        <label>Где случилось:<input name="room" type="text" maxlength="100" required></label>
+        <label>Что случилось:<textarea rows="10" name="desc" maxlength="255" placeholder="По умолчанию 'Подойдите пожалуйста'"></textarea></label>
+        <div><input type="submit" value="Отправить"></div>
+    </form>
+</div>
+</body>
+</html>

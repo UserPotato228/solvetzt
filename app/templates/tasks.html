@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Задачи</title>
+</head>
+<style>
+    body{background-color: #fafafa;}
+    *{font-size: 18px;}
+    #wrapper{
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0 auto;
+    width: 50%;
+    }
+    form{
+    margin-top: 45px;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    }
+    label{
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    }
+    input[type=button]{
+    background-color:#5f8ffb;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    }
+    .item{
+    border-bottom: 1px solid gray;
+    padding-bottom: 5px;
+    }
+</style>
+<script>
+    var onload_var = null;
+
+    async function check_count(){
+
+        var response = await fetch("/tasks/get_count",{
+        method: 'GET',
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+        },
+        });
+
+        if(response.ok){
+            var json_body = await response.json();
+            if(onload_var == null){
+                onload_var = json_body.count;
+            }
+            else{
+                if(json_body.count!=onload_var){
+                    alert("Новое сообщение!");
+                    location.reload();
+                }
+            }
+
+        }
+        else{
+            alert("Ошибка :/ \n"+response.status);
+        }
+
+    }
+
+    setInterval(() => check_count(), 10000);
+
+    async function set_done(id_){
+    data = {id:id_};
+
+    var response = await fetch("/tasks/set_done",{
+    method: 'POST',
+    headers: {
+     'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(data)
+    });
+
+    if(response.ok){
+        alert("Готово");
+        location.reload();
+    }
+    else{
+        alert("Ошибка :/ \n"+response.status);
+    }
+
+    }
+</script>
+<body onload="check_count()">
+<div id="wrapper">
+    {%if items%}
+    {%for item in items%}
+    <div class="item">
+        <label>Место: {{item.room}}</label>
+        <label>Коментарий к запросу: {{item.desc}}</label>
+        <label>{{item.time}}</label>
+        <div><input type="button" onclick="set_done({{item.id}})" value="Готово"></div>
+    </div>
+    {%endfor%}
+    {%else%}
+    <div>Пока тихо..</div>
+    {%endif%}
+</div>
+</body>
+</html>
